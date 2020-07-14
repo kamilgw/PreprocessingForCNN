@@ -5,8 +5,8 @@ from PIL import Image
 
 
 images_folder = Path("D:/Wagony/zdjWag")
-all_images = images_folder.glob('*.jpg')
-starting_number = 29
+all_images = images_folder.glob('*.png')
+starting_number = 0
 items = [x for x in all_images if x.is_file()]
 
 
@@ -27,14 +27,32 @@ def resize(start_from):
     progress(0, len(items), 'Start')
     for i, item in enumerate(items):
         im = Image.open(item)
-        new_path = images_folder / f'{start_from}.png'
+        new_path = images_folder / f'{str(start_from).zfill(5)}.png'
         # Set the size of image to 1920x1080
         imResize = im.resize((1920, 1080), Image.ANTIALIAS)
         imResize.save(new_path, quality=90)
         # Refresh progress bar
         progress(i + 1, len(items), 'Resizing files')
-        time.sleep(0.05)
+        time.sleep(0.001)
         start_from += 1
 
 
-resize(starting_number)
+# resize(starting_number)
+
+import os
+# Function to rename multiple files
+def main():
+   i = 0
+   path="D:/Wagony/zdjWag/"
+   for filename in os.listdir(path):
+      my_dest = str(i).zfill(5) + ".png"
+      my_source =path + filename
+      my_dest =path + my_dest
+      # rename() function will
+      # rename all the files
+      os.rename(my_source, my_dest)
+      i += 1
+# Driver Code
+if __name__ == '__main__':
+   # Calling main() function
+   main()
